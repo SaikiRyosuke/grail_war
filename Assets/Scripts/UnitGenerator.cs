@@ -36,7 +36,10 @@ public class UnitGenerator : MonoBehaviour
             Debug.LogError("そんな名前のユニットはいない: " + unitID);
             return Instantiate(units[0]).GetComponent<UnitGeneral>();
         }
+        //UnitGeneral newUnit = Instantiate(units[index]).GetComponent<UnitGeneral>();
         return Instantiate(units[index]).GetComponent<UnitGeneral>();
+        //newUnit.SetUnitID();
+        //return newUnit;
     }
 
     //ユニットにプレイヤー識別用に色を付ける

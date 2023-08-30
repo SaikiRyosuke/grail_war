@@ -90,11 +90,30 @@ public class PhysicalBoard : MonoBehaviour
     }
 
 
-    //整数ベクトルがボードの中ににあるか判定する
+    //整数ベクトルがボードの中にあるか判定する
     public bool JudgeOnBoard(Vector2Int position)
     {
         if (-1 < position.x && position.x < Methods.TILE_X && -1 < position.y && position.y < Methods.TILE_Y) return true;
         return false;
     }
 
+
+    //タイルの色変更メソッド
+    //ベクトル指定。色の変更
+    public bool ChangeTileColor(Vector2Int position, Color color)
+    {
+        GetTile(position).GetComponent<SpriteRenderer>().color = color;
+        return true;
+    }
+    //タイル全ての色を変更するメソッド
+    public void DyeAllTilesTo(Color color)
+    {
+        for (int i = 0; i < Methods.TILE_X; i++)
+        {
+            for (int j = 0; j < Methods.TILE_Y; j++)
+            {
+                GetTile(new Vector2Int(i, j)).gameObject.GetComponent<SpriteRenderer>().color = color;
+            }
+        }
+    }
 }

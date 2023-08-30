@@ -12,7 +12,7 @@ public class AttackOperation : MonoBehaviour
     [SerializeField] PhysicalBoard physicalBoard;
     [SerializeField] InputManager inputManager;
     [SerializeField] DataBoardManager dataBoardManager;
-    [SerializeField] ColorTile colorTile;
+    [SerializeField] TileColor colorTile;
 
     //最初に選ばれたタイル
     Vector2Int firstPosition;
@@ -39,7 +39,7 @@ public class AttackOperation : MonoBehaviour
         sceneManager.operationType = SceneManager.OperationType.Attack;
 
         //タイルの色を元に戻す
-        colorTile.DyeAllTilesTo(ColorTile.attackOutside);
+        physicalBoard.DyeAllTilesTo(TileColor.attackRangeOutside);
 
         //攻撃範囲を初期化
         Range = new List<Vector2Int>();
@@ -107,7 +107,7 @@ public class AttackOperation : MonoBehaviour
             foreach (Vector2Int tilePosition in Range)
             {
                 //physicalBoard.OriginateTileColor(tilePosition);
-                colorTile.ChangeTileColor(tilePosition, ColorTile.attackOutside);
+                physicalBoard.ChangeTileColor(tilePosition, TileColor.attackRangeOutside);
             }
 
             ////ボード外で離れた場合
@@ -145,7 +145,7 @@ public class AttackOperation : MonoBehaviour
             return;
         }
         //最初のタイルだけ明るくする
-        colorTile.ChangeTileColor(firstPosition, ColorTile.attacker);
+        physicalBoard.ChangeTileColor(firstPosition, TileColor.attackAttacker);
 
 
         
@@ -162,7 +162,7 @@ public class AttackOperation : MonoBehaviour
             else
             {
                 //physicalBoard.DarkenTile(inputManager.mousePositionBoardBefore);
-                colorTile.ChangeTileColor(inputManager.mousePositionBoardBefore, ColorTile.attackInside);
+                physicalBoard.ChangeTileColor(inputManager.mousePositionBoardBefore, TileColor.attackRangeInside);
             }
             
         }

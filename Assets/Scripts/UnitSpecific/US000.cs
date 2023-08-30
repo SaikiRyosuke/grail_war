@@ -9,8 +9,10 @@ public class US000 : MonoBehaviour
     [SerializeField] UnitGeneral unitGeneral;
 
     //ユニット生成時に確実に初期設定を終える
-    void Awake()
+    //public override void SetUnitID()
+    void Start()
     {
+        Debug.Log("呼ばれてるよ～");
         unitGeneral.UnitID = "UP000";
     }
 }

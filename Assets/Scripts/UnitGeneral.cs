@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 /// <summary>
-/// 他オブジェクトからの呼び出しに応じることができる普遍的なデータ
+/// 全てのユニットに共通にするデータ
 /// </summary>
 public class UnitGeneral : MonoBehaviour
 {
@@ -67,6 +67,12 @@ public class UnitGeneral : MonoBehaviour
     virtual public bool UseSkill()
     {
         // 継承したクラスで内容を記述
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        return false;
+    }
+
+    virtual public void SetUnitID()
+    {
+        //throw new NotImplementedException();
     }
 }

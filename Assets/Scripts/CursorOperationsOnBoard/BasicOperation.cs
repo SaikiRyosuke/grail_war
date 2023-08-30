@@ -11,7 +11,7 @@ public class BasicOperation : MonoBehaviour
     [SerializeField] MoveOperation moveOperation;
     [SerializeField] AttackOperation attackOperation;
     [SerializeField] SceneManager sceneManager;
-    [SerializeField] ColorTile colorTile;
+    [SerializeField] TileColor colorTile;
 
 
     public void Activate()
@@ -38,7 +38,7 @@ public class BasicOperation : MonoBehaviour
         //ボード外から侵入した場合を除く
         if (inputManager.Displacement() && inputManager.mousePositionBoardBefore != physicalBoard.OUTSIDE)
         {
-            colorTile.ChangeTileColor(inputManager.mousePositionBoardBefore, ColorTile.basicOriginal);
+            physicalBoard.ChangeTileColor(inputManager.mousePositionBoardBefore, TileColor.basicOriginal);
         }
 
         //カーソルがあるタイルの色を変化させる(カーソルがボード上にないときはなにもしない)
@@ -48,11 +48,11 @@ public class BasicOperation : MonoBehaviour
             //タイルにユニットが存在しないとき　暗くする
             if (unitExists)
             {
-                colorTile.ChangeTileColor(inputManager.mousePositionBoard, ColorTile.basicPointUnit);
+                physicalBoard.ChangeTileColor(inputManager.mousePositionBoard, TileColor.basicPointUnit);
             }
             else
             {
-                colorTile.ChangeTileColor(inputManager.mousePositionBoard, ColorTile.basicPointTile);
+                physicalBoard.ChangeTileColor(inputManager.mousePositionBoard, TileColor.basicPointTile);
             }
         }
 
