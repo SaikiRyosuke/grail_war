@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4745284975492527803}
   - component: {fileID: 1491133858645599464}
-  - component: {fileID: 6520353349601791694}
   - component: {fileID: 5110640523698083726}
   m_Layer: 0
   m_Name: UP000
@@ -134,19 +133,6 @@ SortingGroup:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_SortAtRoot: 0
---- !u!114 &6520353349601791694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2853801108452678004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d1ebc3f8b139b344b979972061456a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkRange: 4.4
 --- !u!114 &5110640523698083726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf6c66dcf4021a4aad892dd0e91604f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitGeneral: {fileID: 6520353349601791694}
+  atkRange: 2.5
 --- !u!1 &3251829106420248616
 GameObject:
   m_ObjectHideFlags: 0

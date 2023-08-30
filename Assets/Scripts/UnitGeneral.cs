@@ -19,11 +19,18 @@ public class UnitGeneral : MonoBehaviour
 
 
     //「内部情報」
+    //TOASK public private本当に分からない。
+    /// <summary>
+    /// ここだったらunitのidというのは個別に決まってていて外部からは読み取りしかできないようにしたい。
+    /// US000.csにreadonlyで書くのが一番無難？
+    /// </summary>
     //このユニットのID
-    public string UnitID { get; set; }
+    public string UnitID { get; set; } = null;
     //能力値
+    //攻撃射程
     public float atkRange;
-
+    //体力
+    public string HP { get; set; } = null;
     //「外部情報」
     //(静的情報）
     //このユニットの所有プレイヤー
@@ -55,9 +62,10 @@ public class UnitGeneral : MonoBehaviour
 
         this.gameObject.transform.position = Methods.BoardToUnitDisplay(Position);
 
+
         //DataBoardを参照にして
-        UpdateInner();
-        
+        //UpdateInner();
+
     }
     virtual protected void UpdateInner(){
         // こいつだけUpdateタイミングでやりたいということを継承先でここに書く
@@ -71,8 +79,4 @@ public class UnitGeneral : MonoBehaviour
         return false;
     }
 
-    virtual public void SetUnitID()
-    {
-        //throw new NotImplementedException();
-    }
 }

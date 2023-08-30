@@ -42,7 +42,7 @@ public class DebugDisplay : MonoBehaviour
         mousePositionBoardText.text = "MouseBoard :" + inputManager.mousePositionBoard.x.ToString() + " : " + inputManager.mousePositionBoard.y.ToString();
         mousePositionUnitText.text = "MouseUnit :" + inputManager.mousePositionUnit.x.ToString() + " : " + inputManager.mousePositionUnit.y.ToString();
         boardDisplacement.text = "BoardDisplacement :" + inputManager.Displacement();
-        primaryUnit.text = "PrimaryUnit :" + primaryUnitOperator.PrimaryUnit;
+        if(primaryUnitOperator.PrimaryUnit != null)primaryUnit.text = "PrimaryUnit ID :" + primaryUnitOperator.PrimaryUnit.UnitID;
         cursorOperation.text = "CursorOperation : " + sceneManager.operationType;
     }
 }

@@ -4,15 +4,21 @@ using UnityEngine;
 /// <summary>
 /// UnitGeneralに初期値を設定します。
 /// </summary>
-public class US000 : MonoBehaviour
+public class US000 : UnitGeneral
 {
-    [SerializeField] UnitGeneral unitGeneral;
-
     //ユニット生成時に確実に初期設定を終える
+    //public readonly string unitID = "UP000";
+    
     //public override void SetUnitID()
     void Start()
     {
-        Debug.Log("呼ばれてるよ～");
-        unitGeneral.UnitID = "UP000";
+        UnitID = "UP000";
+        HP = "1000";
+    }
+
+    public override bool UseSkill()
+    {
+        Debug.Log("say hoo!");
+        return true;
     }
 }

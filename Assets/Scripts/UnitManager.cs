@@ -72,7 +72,6 @@ public class UnitManager : MonoBehaviour
         unitGenerator.SetColor(unit);
         //
         //unit.Activate();
-
         return unit;
 
     }
