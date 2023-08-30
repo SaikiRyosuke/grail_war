@@ -28,7 +28,8 @@ public class ChoiceOperation : MonoBehaviour
         Debug.Log(Methods.BoardToUnitVector(unitPosition));
         //ボード座標をUIスクリーン座標に変換
         unitChoiceUI.transform.position = mainCamera.WorldToScreenPoint(Methods.BoardToUnitVector(unitPosition));
-
+		//for分にしておこう
+		//unitChoiceUIはプレファブ
         InstantiateUnitChoiceButton(unitChoiceUI, "hello", 0);
         InstantiateUnitChoiceButton(unitChoiceUI, "hello", 1);
         InstantiateUnitChoiceButton(unitChoiceUI, "hello", 2);
