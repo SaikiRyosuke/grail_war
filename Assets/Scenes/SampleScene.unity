@@ -548,6 +548,10 @@ MonoBehaviour:
   inputManager: {fileID: 2120472326}
   primaryUnitOperator: {fileID: 2120472334}
   sceneManager: {fileID: 2120472324}
+  basicOperation: {fileID: 2120472328}
+  moveOperation: {fileID: 2120472329}
+  attackOperation: {fileID: 2120472330}
+  choiceOperation: {fileID: 2120472331}
 --- !u!1 &750442550
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using System;
 
 public class DebugDisplay : MonoBehaviour
 {
@@ -11,6 +13,10 @@ public class DebugDisplay : MonoBehaviour
     [SerializeField] InputManager inputManager;
     [SerializeField] PrimaryUnitOperator primaryUnitOperator;
     [SerializeField] SceneManager sceneManager;
+    [SerializeField] BasicOperation basicOperation;
+    [SerializeField] MoveOperation moveOperation;
+    [SerializeField] AttackOperation attackOperation;
+    [SerializeField] ChoiceOperation choiceOperation;
 
     TextMeshProUGUI mousePositionBoardText;
     TextMeshProUGUI mousePositionUnitText;
@@ -44,5 +50,10 @@ public class DebugDisplay : MonoBehaviour
         boardDisplacement.text = "BoardDisplacement :" + inputManager.Displacement();
         if(primaryUnitOperator.PrimaryUnit != null)primaryUnit.text = "PrimaryUnit ID :" + primaryUnitOperator.PrimaryUnit.UnitID;
         cursorOperation.text = "CursorOperation : " + sceneManager.operationType;
+        //OperationÇÃêîÇÃîªíË
+        if (Convert.ToInt32(basicOperation.enabled) + Convert.ToInt32(moveOperation.enabled) + Convert.ToInt32(attackOperation.enabled) + Convert.ToInt32(choiceOperation.enabled) != 1)
+        {
+            cursorOperation.text = "CursorOperation is not determined!!";
+        }
     }
 }
