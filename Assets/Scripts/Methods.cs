@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// staticなメソッドや定数やリテラルをなるべく集めました。
 /// staticの宣言はこのスクリプトにしかありません。
+/// ColorTileを除きます。
 /// </summary>
 public class Methods : MonoBehaviour
 {

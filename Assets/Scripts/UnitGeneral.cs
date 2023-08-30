@@ -51,9 +51,11 @@ public class UnitGeneral : MonoBehaviour
         //ユニット間の画像の前後関係をy座標に依存してきめる 
         DisplayOrder = Methods.TILE_Y - Position.y - 1;
         this.gameObject.GetComponent <SortingGroup>().sortingOrder = DisplayOrder;
-        //()  .sortingOrder = DisplayOrder;
 
         this.gameObject.transform.position = Methods.BoardToUnitDisplay(Position);
+
+        //DataBoardを参照にして
+
         
     }
 }

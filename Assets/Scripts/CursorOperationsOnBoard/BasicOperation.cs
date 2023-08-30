@@ -11,6 +11,7 @@ public class BasicOperation : MonoBehaviour
     [SerializeField] MoveOperation moveOperation;
     [SerializeField] AttackOperation attackOperation;
     [SerializeField] SceneManager sceneManager;
+    [SerializeField] ColorTile colorTile;
 
 
     public void Activate()
@@ -37,7 +38,7 @@ public class BasicOperation : MonoBehaviour
         //ボード外から侵入した場合を除く
         if (inputManager.Displacement() && inputManager.mousePositionBoardBefore != physicalBoard.OUTSIDE)
         {
-            physicalBoard.OriginateTileColor(inputManager.mousePositionBoardBefore);
+            colorTile.ChangeTileColor(inputManager.mousePositionBoardBefore, ColorTile.basicOriginal);
         }
 
         //カーソルがあるタイルの色を変化させる(カーソルがボード上にないときはなにもしない)
@@ -47,11 +48,11 @@ public class BasicOperation : MonoBehaviour
             //タイルにユニットが存在しないとき　暗くする
             if (unitExists)
             {
-                physicalBoard.LightenTile(inputManager.mousePositionBoard);
+                colorTile.ChangeTileColor(inputManager.mousePositionBoard, ColorTile.basicPointUnit);
             }
             else
             {
-                physicalBoard.DarkenTile(inputManager.mousePositionBoard);
+                colorTile.ChangeTileColor(inputManager.mousePositionBoard, ColorTile.basicPointTile);
             }
         }
 
@@ -74,12 +75,6 @@ public class BasicOperation : MonoBehaviour
                 cursorUnit.IsMoving = false;
             }
             //TEMPORARY 開発者的には相手キャラも動かしたいので。
-            //else if (dataBoardManager.GetFromDataBoard(inputManager.mousePositionBoard).PlayerIndex == Methods.PLAYER_ENEMY)
-            //{
-            //    Debug.Log("you cannot move opponent unit.");
-
-            //}
-            //else if(dataBoardManager.GetFromDataBoard(inputManager.mousePositionBoard).PlayerIndex == Methods.PLAYER_ME)
 
             //ユニットが動いていないとき
             else

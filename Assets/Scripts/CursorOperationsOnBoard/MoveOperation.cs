@@ -13,6 +13,7 @@ public class MoveOperation : MonoBehaviour
     [SerializeField] BasicOperation basicOperation;
     [SerializeField] SceneManager sceneManager;
     [SerializeField] MoveHandler moveHandler;
+    [SerializeField] ColorTile colorTile;
 
     //移動経路
     List<Vector2Int> movePath;
@@ -81,12 +82,7 @@ public class MoveOperation : MonoBehaviour
         if (Input.GetMouseButtonUp(1))
         {
             EndMove();
-            //移動経路を出力する
-            //foreach (Vector2Int position in movePath)
-            //{
-            //    Debug.Log(position);
-            //}
-
+            //YOCHI 移動経路を出力する
             //赤マスで終了した場合
             if (MOVE_PROHIBITED)
             {
@@ -119,13 +115,13 @@ public class MoveOperation : MonoBehaviour
             if(!unitExists)
             {
                 //カーソルのあるタイルを明るくする
-                physicalBoard.LightenTile(tileWithCursor.PositionBoard);
+                colorTile.ChangeTileColor(tileWithCursor.PositionBoard, ColorTile.movePointTile);
             }
             //敵ユニットが存在する場合
             else if (cursorUnit.PlayerIndex != startTileUnit.PlayerIndex)
             {
                 //カーソルのあるタイルを赤くする
-                physicalBoard.DyeTileRed(tileWithCursor.PositionBoard);
+                colorTile.ChangeTileColor(tileWithCursor.PositionBoard, ColorTile.movePointENEMYUnit);
 
                 //フラグをtrueにする。
                 MOVE_PROHIBITED = true;
@@ -135,7 +131,7 @@ public class MoveOperation : MonoBehaviour
             else if (cursorUnit.PlayerIndex == startTileUnit.PlayerIndex && inputManager.mousePositionBoard != startTilePosition)
             {
                 //カーソルのあるタイルを赤くする
-                physicalBoard.DyeTileRed(tileWithCursor.PositionBoard);
+                colorTile.ChangeTileColor(tileWithCursor.PositionBoard, ColorTile.movePointMEUnit);
             }
             
 
@@ -146,10 +142,10 @@ public class MoveOperation : MonoBehaviour
                 movePath.Add(tileWithCursor.PositionBoard);
 
                 //すぎたカーソルが赤マスじゃなかった場合
-                if (tileWithCursorBefore.gameObject.GetComponent<SpriteRenderer>().color != physicalBoard.tileRed)
+                if (tileWithCursorBefore.gameObject.GetComponent<SpriteRenderer>().color != ColorTile.movePointENEMYUnit)
                 {
                     //カーソルがすぎたタイルは暗くする
-                    physicalBoard.DarkenTile(tileWithCursorBefore.PositionBoard);
+                    colorTile.ChangeTileColor(tileWithCursorBefore.PositionBoard, ColorTile.movePassedTile);
                 }
                 
 
@@ -165,7 +161,7 @@ public class MoveOperation : MonoBehaviour
         //タイルの色を元に戻す。
         foreach (Vector2Int tileOnPath in movePath)
         {
-            physicalBoard.OriginateTileColor(tileOnPath);
+            colorTile.ChangeTileColor(tileOnPath, ColorTile.moveOriginal);
         }
 
         //MoveOperationを非アクティブ化する

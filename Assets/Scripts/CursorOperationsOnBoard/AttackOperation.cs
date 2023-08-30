@@ -12,6 +12,7 @@ public class AttackOperation : MonoBehaviour
     [SerializeField] PhysicalBoard physicalBoard;
     [SerializeField] InputManager inputManager;
     [SerializeField] DataBoardManager dataBoardManager;
+    [SerializeField] ColorTile colorTile;
 
     //最初に選ばれたタイル
     Vector2Int firstPosition;
@@ -38,11 +39,7 @@ public class AttackOperation : MonoBehaviour
         sceneManager.operationType = SceneManager.OperationType.Attack;
 
         //タイルの色を元に戻す
-        physicalBoard.DyeAllTilesTo(tileOriginal);
-        foreach (Vector2Int tilePosition in Range)
-        {
-            physicalBoard.OriginateTileColor(tilePosition);
-        }
+        colorTile.DyeAllTilesTo(ColorTile.attackOutside);
 
         //攻撃範囲を初期化
         Range = new List<Vector2Int>();
@@ -53,27 +50,31 @@ public class AttackOperation : MonoBehaviour
         //攻撃主体のユニットを取得
         attacker = dataBoardManager.GetFromDataBoard(firstTilePosition);
 
-        //攻撃範囲を可視化
-        foreach(Vector2Int tile in dataBoardManager.AttackablePositionsWithUnit(attacker))
+        //攻撃範囲をリストにする
+        foreach(Vector2Int tilePosition in dataBoardManager.AttackablePositionsWithUnit(attacker))
         {
-            Range.Add(tile);
-            if (dataBoardManager.JudgeExist(tile) && dataBoardManager.GetFromDataBoard(tile).PlayerIndex != attacker.PlayerIndex)
-            {
-                enemyPositions.Add(tile);
-                physicalBoard.GetTile(tile).gameObject.GetComponent<SpriteRenderer>().color = tileAttackable;
-            }
-            else
-            {
-                myPositions.Add(tile);
-                physicalBoard.GetTile(tile).gameObject.GetComponent<SpriteRenderer>().color = tileRange;
-            }
-            
+            Range.Add(tilePosition);
         }
 
     }
     // Update is called once per frame
     void Update()
     {
+        //Range中の敵を明示
+        foreach (Vector2Int tilePosition in Range)
+        {
+            if (dataBoardManager.JudgeExist(tilePosition) && dataBoardManager.GetFromDataBoard(tilePosition).PlayerIndex != attacker.PlayerIndex)
+            {
+                enemyPositions.Add(tilePosition);
+                physicalBoard.GetTile(tilePosition).gameObject.GetComponent<SpriteRenderer>().color = tileAttackable;
+            }
+            else
+            {
+                myPositions.Add(tilePosition);
+                physicalBoard.GetTile(tilePosition).gameObject.GetComponent<SpriteRenderer>().color = tileRange;
+            }
+
+        }
         //カーソルがボード上にあるかの判定
         bool isOnBoard = inputManager.mousePositionBoard != physicalBoard.OUTSIDE;
         //カーソルがレンジ内にあるかの判定
@@ -105,7 +106,8 @@ public class AttackOperation : MonoBehaviour
             //タイルの色を元に戻す
             foreach (Vector2Int tilePosition in Range)
             {
-                physicalBoard.OriginateTileColor(tilePosition);
+                //physicalBoard.OriginateTileColor(tilePosition);
+                colorTile.ChangeTileColor(tilePosition, ColorTile.attackOutside);
             }
 
             ////ボード外で離れた場合
@@ -143,7 +145,8 @@ public class AttackOperation : MonoBehaviour
             return;
         }
         //最初のタイルだけ明るくする
-        physicalBoard.LightenTile(firstPosition);
+        colorTile.ChangeTileColor(firstPosition, ColorTile.attacker);
+
 
         
 
@@ -151,18 +154,15 @@ public class AttackOperation : MonoBehaviour
         //ボード外から侵入した場合を除く
         if (inputManager.Displacement() && Range.Contains(inputManager.mousePositionBoardBefore))
         {
-            /*
-            if (myPositions.Contains(inputManager.mousePositionBoardBefore))
-            {
-                physicalBoard.GetTile(inputManager.mousePositionBoardBefore).gameObject.GetComponent<SpriteRenderer>().color = tile;
-            }*/
+            //YOCHI 味方の色
             if(enemyPositions.Contains(inputManager.mousePositionBoardBefore))
             {
                 physicalBoard.GetTile(inputManager.mousePositionBoardBefore).gameObject.GetComponent<SpriteRenderer>().color = tileAttackable;
             }
             else
             {
-                physicalBoard.DarkenTile(inputManager.mousePositionBoardBefore);
+                //physicalBoard.DarkenTile(inputManager.mousePositionBoardBefore);
+                colorTile.ChangeTileColor(inputManager.mousePositionBoardBefore, ColorTile.attackInside);
             }
             
         }

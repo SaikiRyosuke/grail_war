@@ -17,13 +17,8 @@ public class PhysicalBoard : MonoBehaviour
     //ユニットの位置特定などのデータ処理をするボード
     [SerializeField] DataBoardManager dataBoardManager;
 
-    //タイルの表示色
-    //memo ここに書いていいか
-    Color tileOriginal = new Color32(255, 255, 255, 100);
-    Color tileDark = new Color32(255, 255, 255, 50);
-    Color tileBright = new Color32(150, 200, 255, 200);
-    public Color tileRed = new Color32(255, 150, 150, 200);
 
+    //メンバ変数
     //ボード座標外を表す位置ベクトル。判定条件に多用
     public readonly Vector2Int OUTSIDE = new Vector2Int(-1, -1);
 
@@ -40,22 +35,15 @@ public class PhysicalBoard : MonoBehaviour
         return tileBoard[position.x, position.y];
     }
 
-    //TODO Moveによってはいらない
-    //移動時のルート
-    public List<Vector2Int> MovingPath { get; set; } = new List<Vector2Int>();
-
-
-
 
     //初期動作。主な動作。 ゲーム開始時に一度呼ばれる
     public void Activate()
     {
-        //ゲームボードを生成する。
+        //ゲームボード（実態）を生成する。
         MakeGameBoard();
 
-        //カーソル操作を基本操作(Basic Operation)にする
-        basicOperation.enabled = true;
-        basicOperation.Activate();
+        //DataBaordにアクセスする
+        dataBoardManager.Activate();
     }
 
     //ゲームボード内の座標を指定してタイル（ボードの1マス分）を生成する関数
@@ -101,48 +89,6 @@ public class PhysicalBoard : MonoBehaviour
         }
     }
 
-
-    //指定したタイルを元の色に戻す
-    public Tile OriginateTileColor(Vector2Int position)
-    {
-        Tile normalTile = GetTile(position);
-        normalTile.gameObject.GetComponent<SpriteRenderer>().color = tileOriginal;
-        return normalTile;
-    }
-    //指定したタイルを薄暗くする（表示の補助）
-    //TOASK　色を変えるもっといい方法。
-    public Tile DarkenTile(Vector2Int position)
-    {
-        Tile dimTile = GetTile(position);
-        dimTile.gameObject.GetComponent<SpriteRenderer>().color = tileDark;
-        return dimTile;
-    }
-    //指定したタイルを明るくする(選択表示）
-    public Tile LightenTile(Vector2Int position)
-    {
-        Tile brightTile = GetTile(position);
-        brightTile.gameObject.GetComponent<SpriteRenderer>().color = tileBright;
-        return brightTile;
-    }
-    //指定したタイルを赤くする（警告表示）
-    public Tile DyeTileRed(Vector2Int position)
-    {
-        Tile redTile = GetTile(position);
-        redTile.gameObject.GetComponent<SpriteRenderer>().color = tileRed;
-        return redTile;
-    }
-
-    //全てのタイルの色を指定した色にする
-    public void DyeAllTilesTo(Color color)
-    {
-        for(int i = 0; i < Methods.TILE_X; i++)
-        {
-            for(int j = 0; j < Methods.TILE_Y; j++)
-            {
-                tileBoard[i, j].gameObject.GetComponent<SpriteRenderer>().color = color;
-            }
-        }
-    }
 
     //整数ベクトルがボードの中ににあるか判定する
     public bool JudgeOnBoard(Vector2Int position)

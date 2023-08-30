@@ -10,6 +10,7 @@ public class SceneManager : MonoBehaviour
     [SerializeField] PrimaryUnitOperator primaryUnitOperator;
     [SerializeField] DataBoardManager dataBoardManager;
     [SerializeField] InputManager inputManager;
+    [SerializeField] BasicOperation basicOperation;
 
     //現在の操作状態
     public 
@@ -32,6 +33,10 @@ public class SceneManager : MonoBehaviour
         
         //ユニットの初期設定をする。
         unitManager.Activate();
+
+        //カーソル操作を基本操作(Basic Operation)にする
+        basicOperation.enabled = true;
+        basicOperation.Activate();
 
         //プレイヤーがユニットを操作できるようにする
         primaryUnitOperator.Activate();

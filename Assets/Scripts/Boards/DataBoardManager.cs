@@ -61,4 +61,14 @@ public class DataBoardManager : MonoBehaviour
     {
         return AttackablePositionsWithRangeAndPositions(unit.atkRange, unit.Position);
     }
+
+    public void Activate()
+    {
+
+    }
+
+    private void Update()
+    {
+        
+    }
 }
