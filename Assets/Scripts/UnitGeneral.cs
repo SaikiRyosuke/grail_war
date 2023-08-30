@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,7 +56,17 @@ public class UnitGeneral : MonoBehaviour
         this.gameObject.transform.position = Methods.BoardToUnitDisplay(Position);
 
         //DataBoardを参照にして
-
+        UpdateInner();
         
+    }
+    virtual protected void UpdateInner(){
+        // こいつだけUpdateタイミングでやりたいということを継承先でここに書く
+    }
+    
+    // 固有能力を使用、失敗したときfalseを返す
+    virtual public bool UseSkill()
+    {
+        // 継承したクラスで内容を記述
+        throw new NotImplementedException();
     }
 }

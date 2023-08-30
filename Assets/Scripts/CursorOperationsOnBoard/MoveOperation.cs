@@ -107,6 +107,7 @@ public class MoveOperation : MonoBehaviour
 
 
         //右クリックされている最中
+        #region 右クリックされている最中
         if (Input.GetMouseButton(1))
         {
             //カーソルが許容位置にあるかで色を変える。
@@ -151,6 +152,7 @@ public class MoveOperation : MonoBehaviour
 
             }
         }
+        #endregion
         
 
     }

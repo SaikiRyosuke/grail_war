@@ -38,6 +38,8 @@ public class MoveHandler : MonoBehaviour
         movingUnit.IsMoving = true;
         //このオブジェクト名を変化させる
         this.gameObject.name = "MoveHandler";
+
+        movingUnit.UseSkill();
     }
 
     
