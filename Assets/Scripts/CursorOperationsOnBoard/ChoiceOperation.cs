@@ -18,6 +18,7 @@ public class ChoiceOperation : MonoBehaviour
     const float RADIUS = 1f;
     float BUTTON_SCALE;
 	UnitGeneral selectedUnit;
+	GameObject buttons = null;
 	
 
     public void Activate(Vector2Int unitPosition)
@@ -32,12 +33,18 @@ public class ChoiceOperation : MonoBehaviour
         Debug.Log(Methods.BoardToUnitVector(unitPosition));
         //ボード座標をUIスクリーン座標に変換
         // unitChoiceUI.transform.position = mainCamera.WorldToScreenPoint(Methods.BoardToUnitVector(unitPosition));
-		//for分にしておこう
-		//unitChoiceUIはプレファブ
-		//これは嘘。Canvasの子オブジェクト。これを自分自身に変更してUnitの子オブジェクトとしてボタンを生成する。
+		
+		//同じユニットで複数回チョイスフェーズに移行した場合、ボタンが複数生成されないようにする
+		//各ユニットの子オブジェクトに空のオブジェクトを生成し、その中にボタンを生成する。
+		//チョイスフェーズ離脱時にその子オブジェクトを破壊することによって実現。
+		//Destroy処理は、重なると重くなるという噂がある。。。
+		//理想としてはGeneralUnit内でActivate したときにこれらのオブジェクトを生成して、このスクリプトではそのactive非アクティブだけをいじる。
 		selectedUnit = dataBoardManager.GetFromDataBoard(unitPosition);
+		buttons = new GameObject("buttons");
+		buttons.transform.parent = selectedUnit.gameObject.transform;
+		buttons.transform.position = selectedUnit.gameObject.transform.position;
 		for(int i = 0; i < UNIT_CHOICE_MAX; i++){
-			InstantiateUnitChoiceButton(selectedUnit.gameObject, i);
+			InstantiateUnitChoiceButton(buttons, i);
 		}
     }
 
@@ -93,7 +100,8 @@ public class ChoiceOperation : MonoBehaviour
     }
     void EndChoice()
     {
-
+		//ボタンの消去
+		Destroy(buttons);
         //MoveOperationを非アクティブ化する
         this.enabled = false;
 
