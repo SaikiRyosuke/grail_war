@@ -26,13 +26,6 @@ public class AttackOperation : MonoBehaviour
     //攻撃範囲の敵ユニットの位置
     List<Vector2Int> enemyPositions;
 
-    Color tileOriginal = new Color32(255, 255, 255, 100);//標準
-    Color tileRange = new Color32(255, 255, 255, 50);//攻撃範囲の色
-    Color tileAttackable = new Color32(135, 190, 255, 200);//攻撃可能の色
-    Color tileMouseDark = new Color32(100, 100, 100, 100);//攻撃範囲中のマウスの色
-    Color tileMouseAttackable = new Color32(149, 254, 255, 240);//攻撃可能中のマウスの色
-    Color tileRed = new Color32(255, 150, 150, 50);
-
     public void Activate(Vector2Int firstTilePosition)
     {
         //SceneManagerに操作状況を伝える
@@ -66,12 +59,12 @@ public class AttackOperation : MonoBehaviour
             if (dataBoardManager.JudgeExist(tilePosition) && dataBoardManager.GetFromDataBoard(tilePosition).PlayerIndex != attacker.PlayerIndex)
             {
                 enemyPositions.Add(tilePosition);
-                physicalBoard.GetTile(tilePosition).gameObject.GetComponent<SpriteRenderer>().color = tileAttackable;
+                physicalBoard.GetTile(tilePosition).gameObject.GetComponent<SpriteRenderer>().color = TileColor.attackRangeENEMYUnit;
             }
             else
             {
                 myPositions.Add(tilePosition);
-                physicalBoard.GetTile(tilePosition).gameObject.GetComponent<SpriteRenderer>().color = tileRange;
+                physicalBoard.GetTile(tilePosition).gameObject.GetComponent<SpriteRenderer>().color = TileColor.attackRangeInside;
             }
 
         }
@@ -157,7 +150,7 @@ public class AttackOperation : MonoBehaviour
             //YOCHI 味方の色
             if(enemyPositions.Contains(inputManager.mousePositionBoardBefore))
             {
-                physicalBoard.GetTile(inputManager.mousePositionBoardBefore).gameObject.GetComponent<SpriteRenderer>().color = tileAttackable;
+                physicalBoard.GetTile(inputManager.mousePositionBoardBefore).gameObject.GetComponent<SpriteRenderer>().color = TileColor.attackRangeENEMYUnit;
             }
             else
             {
@@ -173,15 +166,15 @@ public class AttackOperation : MonoBehaviour
         {
             if (!unitExists)
             {
-                tileWithCursor.gameObject.GetComponent<SpriteRenderer>().color = tileMouseDark;
+                tileWithCursor.gameObject.GetComponent<SpriteRenderer>().color = TileColor.attackCursorTile;
             }
             else if (cursorUnit.PlayerIndex == attacker.PlayerIndex)
             {
-                tileWithCursor.gameObject.GetComponent<SpriteRenderer>().color = tileRed;
+                tileWithCursor.gameObject.GetComponent<SpriteRenderer>().color = TileColor.attackCursorMEUnit;
             }
             else if (cursorUnit.PlayerIndex != attacker.PlayerIndex)
             {
-                tileWithCursor.gameObject.GetComponent<SpriteRenderer>().color = tileMouseAttackable;
+                tileWithCursor.gameObject.GetComponent<SpriteRenderer>().color = TileColor.attackCursorENEMYUnit;
             }
         }
         
