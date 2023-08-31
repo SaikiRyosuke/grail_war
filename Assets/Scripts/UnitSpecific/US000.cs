@@ -7,13 +7,14 @@ using UnityEngine;
 public class US000 : UnitGeneral
 {
     //ユニット生成時に確実に初期設定を終える
-    //public readonly string unitID = "UP000";
+
     
     //public override void SetUnitID()
     void Start()
     {
         UnitID = "UP000";
-        HP = "1000";
+        INIT_HP = 1000;
+        HP = INIT_HP;
     }
 
     public override bool UseSkill()

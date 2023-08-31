@@ -17,20 +17,25 @@ public class UnitGeneral : MonoBehaviour
     PhysicalBoard physicalBoard;
     DataBoardManager dataBoardManager;
 
+    [SerializeField] GameObject hpBar;
 
     //「内部情報」
     //TOASK public private本当に分からない。
     /// <summary>
     /// ここだったらunitのidというのは個別に決まってていて外部からは読み取りしかできないようにしたい。
     /// US000.csにreadonlyで書くのが一番無難？
+    /// インスペクタはデータ消えそうで使いたくない
+    /// US000で初期化したい
     /// </summary>
     //このユニットのID
     public string UnitID { get; set; } = null;
+    //能力初期値
+    protected float INIT_HP;
     //能力値
     //攻撃射程
     public float atkRange;
     //体力
-    public string HP { get; set; } = null;
+    public float HP { get; set; } = 0;
     //「外部情報」
     //(静的情報）
     //このユニットの所有プレイヤー
@@ -62,8 +67,7 @@ public class UnitGeneral : MonoBehaviour
 
         this.gameObject.transform.position = Methods.BoardToUnitDisplay(Position);
 
-
-        //DataBoardを参照にして
+        DisplayHPBar();
         //UpdateInner();
 
     }
@@ -78,5 +82,29 @@ public class UnitGeneral : MonoBehaviour
         //throw new NotImplementedException();
         return false;
     }
+    
+    //HPをゲージに反映
+    private bool DisplayHPBar()
+    {
+        float leftHPScale;
+        if(HP >= 0)
+        {
+            leftHPScale = HP / INIT_HP;
+        }
+        else
+        {
+            leftHPScale = 0;
+            Debug.Log("HP less than 0");
+        }
 
+        Vector3 scale = hpBar.transform.localScale;
+        scale.x = leftHPScale;
+        hpBar.transform.localScale = scale;
+        Vector3 position = hpBar.transform.parent.position;
+        //magic number
+        position.x -= 0.75f * (1 - leftHPScale) / 2;
+        hpBar.transform.position = position;
+
+        return true;
+    }
 }
