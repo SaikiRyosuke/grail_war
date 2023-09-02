@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MoveOperation : MonoBehaviour
+public class PathOperation : MonoBehaviour
 {
 
-    [SerializeField] InputManager inputManager;
+    [SerializeField] protected InputManager inputManager;
     [SerializeField] PhysicalBoard physicalBoard;
     [SerializeField] DataBoardManager dataBoardManager;
     [SerializeField] PrimaryUnitOperator primaryUnitOperator;
@@ -16,15 +16,28 @@ public class MoveOperation : MonoBehaviour
     [SerializeField] TileColor colorTile;
 
     //指定経路
-    List<Vector2Int> pathway;
+    protected List<Vector2Int> pathway;
 
     //クリックした最初のタイルの位置
-    Vector2Int startTilePosition;
+    protected Vector2Int startTilePosition;
     //最初のタイルの位置のユニット
-    UnitGeneral startTileUnit;
+    protected UnitGeneral startTileUnit;
 
     //赤マス（禁止マス）にカーソルがあるか
     bool MOVE_PROHIBITED;
+
+    //カーソルがボード上にあるかの判定
+    protected bool isOnBoard = false;
+    //カーソルがあるタイルにユニットが存在するかの判定
+    protected bool unitExists = false;
+
+    //カーソルのあるタイル
+    protected Tile tileWithCursor = null;
+    //前回カーソルがあったタイル
+    protected Tile tileWithCursorBefore = null;
+
+    //カーソルがあるタイルのユニット
+    protected UnitGeneral cursorUnit = null;
 
 
     //操作状態の改修
@@ -42,21 +55,6 @@ public class MoveOperation : MonoBehaviour
     Color withCursor_Target;
     Color withCursor_NotApplicable;
     
-
-    //public void Activate(Vector2Int initTilePosition)
-    //{
-    //    //初期化
-    //    startTilePosition = initTilePosition;
-    //    startTileUnit = dataBoardManager.GetFromDataBoard(startTilePosition);
-
-    //    //操作状態をMoveにかえる
-    //    sceneManager.operationType = SceneManager.OperationType.Move;
-
-    //    //移動経路に最初のタイルの位置を追加
-    //    pathway = new List<Vector2Int> { startTilePosition };
-    //    //判定を初期化
-    //    MOVE_PROHIBITED = false;
-
 
     
     public void Activate(Vector2Int initTilePosition)
@@ -80,17 +78,17 @@ public class MoveOperation : MonoBehaviour
     void Update()
     {
         //カーソルがボード上にあるかの判定
-        bool isOnBoard = inputManager.mousePositionBoard != physicalBoard.OUTSIDE;
+        isOnBoard = inputManager.mousePositionBoard != physicalBoard.OUTSIDE;
         //カーソルがあるタイルにユニットが存在するかの判定
-        bool unitExists = isOnBoard && dataBoardManager.JudgeExist(inputManager.mousePositionBoard);
+        unitExists = isOnBoard && dataBoardManager.JudgeExist(inputManager.mousePositionBoard);
 
         //カーソルのあるタイル
-        Tile tileWithCursor = null;
+        tileWithCursor = null;
         //前回カーソルがあったタイル
-        Tile tileWithCursorBefore = null;
+        tileWithCursorBefore = null;
 
         //カーソルがあるタイルのユニット
-        UnitGeneral cursorUnit = null;
+        cursorUnit = null;
         if (unitExists)
         {
             cursorUnit = dataBoardManager.GetFromDataBoard(inputManager.mousePositionBoard);
@@ -145,14 +143,14 @@ public class MoveOperation : MonoBehaviour
         {
             //カーソルが許容位置にあるかで色を変える。
 
-            //ユニットが存在しない場合
-            if(!unitExists)
+            //ユニットが存在しない場合!unitExists
+            if(Condition1())
             {
                 //カーソルのあるタイルを明るくする
                 physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, TileColor.movePointTile);
             }
-            //敵ユニットが存在する場合
-            else if (cursorUnit.PlayerIndex != startTileUnit.PlayerIndex)
+            //敵ユニットが存在する場合cursorUnit.PlayerIndex != startTileUnit.PlayerIndex
+            else if (Condition2())
             {
                 //カーソルのあるタイルを赤くする
                 physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, TileColor.movePointENEMYUnit);
@@ -161,8 +159,8 @@ public class MoveOperation : MonoBehaviour
                 MOVE_PROHIBITED = true;
                
             }
-            //味方ユニットが存在かつ・初期位置(自分自身）ではない場合
-            else if (cursorUnit.PlayerIndex == startTileUnit.PlayerIndex && inputManager.mousePositionBoard != startTilePosition)
+            //味方ユニットが存在かつ・初期位置(自分自身）ではない場合cursorUnit.PlayerIndex == startTileUnit.PlayerIndex && inputManager.mousePositionBoard != startTilePosition
+            else if (Condition3())
             {
                 //カーソルのあるタイルを赤くする
                 physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, TileColor.movePointMEUnit);
@@ -205,5 +203,20 @@ public class MoveOperation : MonoBehaviour
         //BasicOperationをアクティブ化する
         basicOperation.enabled = true;
         basicOperation.Activate();
+    }
+    virtual protected bool Condition1()
+    {
+        Debug.Log("Condition1 is not overwritten.");
+        return false;
+    }
+    virtual protected bool Condition2()
+    {
+        Debug.Log("Condition2 is not overwritten.");
+        return false;
+    }
+    virtual protected bool Condition3()
+    {
+        Debug.Log("Condition3 is not overwritten.");
+        return false;
     }
 }

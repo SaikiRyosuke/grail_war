@@ -13,6 +13,8 @@ public class BasicOperation : MonoBehaviour
     [SerializeField] SceneManager sceneManager;
     [SerializeField] TileColor colorTile;
 
+    [SerializeField] PathOperation pathOperation;
+
 
     public void Activate()
     {
@@ -81,8 +83,11 @@ public class BasicOperation : MonoBehaviour
             {
                 //BasciOperationを非アクティブ化・MoveOperationをアクティブ化・初期化
                 this.enabled = false;
-                moveOperation.enabled = true;
-                moveOperation.Activate(inputManager.mousePositionBoard);
+                //一度moveOoperationをpracticeにする
+                //moveOperation.enabled = true;
+                //moveOperation.Activate(inputManager.mousePositionBoard);
+                pathOperation.enabled = true;
+                pathOperation.Activate(inputManager.mousePositionBoard);
             }
         }
 
