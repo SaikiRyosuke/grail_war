@@ -14,7 +14,7 @@ public class DebugDisplay : MonoBehaviour
     [SerializeField] PrimaryUnitOperator primaryUnitOperator;
     [SerializeField] SceneManager sceneManager;
     [SerializeField] BasicOperation basicOperation;
-    [SerializeField] MoveOperation moveOperation;
+    [SerializeField] PathOperation pathOperation;
     [SerializeField] AttackOperation attackOperation;
     [SerializeField] ChoiceOperation choiceOperation;
 
@@ -51,7 +51,7 @@ public class DebugDisplay : MonoBehaviour
         if(primaryUnitOperator.PrimaryUnit != null)primaryUnit.text = "PrimaryUnit ID :" + primaryUnitOperator.PrimaryUnit.UnitID;
         cursorOperation.text = "CursorOperation : " + sceneManager.operationType;
         //OperationÇÃêîÇÃîªíË
-        if (Convert.ToInt32(basicOperation.enabled) + Convert.ToInt32(moveOperation.enabled) + Convert.ToInt32(attackOperation.enabled) + Convert.ToInt32(choiceOperation.enabled) != 1)
+        if (Convert.ToInt32(basicOperation.enabled) + Convert.ToInt32(pathOperation.enabled) + Convert.ToInt32(attackOperation.enabled) + Convert.ToInt32(choiceOperation.enabled) != 1)
         {
             cursorOperation.text = "CursorOperation is not determined!!";
         }

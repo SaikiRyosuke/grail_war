@@ -12,15 +12,14 @@ public class TileColor : MonoBehaviour
     //https://color.adobe.com/ja/create/color-wheel
 
     //使用する色。外部から参照不可。
-    static Color original        = new Color32(255, 255, 255, 100);//灰色標準
-    static Color paleDark        = new Color32(255, 255, 255, 50);//暗め
-    static Color dark            = new Color32(100, 100, 100, 100);//黒め
-
-    static Color bibidLightBlue  = new Color32(150, 200, 255, 200);//水色明るめ
-    static Color lightBlue       = new Color32(135, 190, 255, 200);//水色
-
-    static Color red             = new Color32(255, 150, 150, 200);//赤
-    static Color lightMint       = new Color32(149, 254, 255, 240);//明るいミント
+    readonly public static Color original        = new Color32(255, 255, 255, 100);//灰色標準
+    readonly public static Color paleDark        = new Color32(255, 255, 255, 50);//暗め
+    readonly public static Color dark            = new Color32(100, 100, 100, 100);//黒め
+    readonly public static Color bibidLightBlue  = new Color32(150, 200, 255, 200);//水色明るめ
+    readonly public static Color lightBlue       = new Color32(135, 190, 255, 200);//水色
+    readonly public static Color red             = new Color32(255, 150, 150, 200);//赤
+    readonly public static Color lightYelow      = new Color32(255, 240, 130, 255);//明るく薄い黄色
+    readonly public static Color lightMint       = new Color32(149, 254, 255, 240);//明るいミント
 
     //操作状況ごとにわける
 

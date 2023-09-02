@@ -2,18 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// ボード内マウス操作
+/// 経路の指定に用いる。経路指定後にメソッドを実行する。
+///・スタートマス
+///・対象のないマス
+///・対象のいるマス
+///・対象外のいるマス
+///に区別して色を表示する。
+///ボード外にでてきたとき強制的に終了する。
+/// </summary>
 public class PathOperation : MonoBehaviour
 {
 
     [SerializeField] protected InputManager inputManager;
-    [SerializeField] PhysicalBoard physicalBoard;
-    [SerializeField] DataBoardManager dataBoardManager;
-    [SerializeField] PrimaryUnitOperator primaryUnitOperator;
-    [SerializeField] BasicOperation basicOperation;
-    [SerializeField] SceneManager sceneManager;
-    [SerializeField] MoveHandler moveHandler;
-    [SerializeField] TileColor colorTile;
+    [SerializeField] protected PhysicalBoard physicalBoard;
+    [SerializeField] protected DataBoardManager dataBoardManager;
+    [SerializeField] protected PrimaryUnitOperator primaryUnitOperator;
+    [SerializeField] protected BasicOperation basicOperation;
+    [SerializeField] protected SceneManager sceneManager;
+    [SerializeField] protected MoveHandler moveHandler;
+    [SerializeField] protected TileColor colorTile;
 
     //指定経路
     protected List<Vector2Int> pathway;
@@ -23,8 +32,8 @@ public class PathOperation : MonoBehaviour
     //最初のタイルの位置のユニット
     protected UnitGeneral startTileUnit;
 
-    //赤マス（禁止マス）にカーソルがあるか
-    bool MOVE_PROHIBITED;
+    //強制終了条件
+    protected bool ACT_PROHIBITED;
 
     //カーソルがボード上にあるかの判定
     protected bool isOnBoard = false;
@@ -42,21 +51,21 @@ public class PathOperation : MonoBehaviour
 
     //操作状態の改修
     //色のパターン分け
-    Color original;
+    Color original = TileColor.original;
 
-    Color noneCursor_Self;
-    Color noneCursor_None;
-    Color noneCursor_Target;
-    Color noneCursor_NotApplicable;
+    //Color noneCursor_Self;
+    Color noneCursor_None = TileColor.paleDark;
+    Color noneCursor_Target = TileColor.lightYelow;
+    Color noneCursor_NotApplicable = TileColor.red;
     
-    
-    Color withCursor_Self;
-    Color withCursor_None;
-    Color withCursor_Target;
-    Color withCursor_NotApplicable;
+    //selfはnoneと同じ挙動
+    Color withCursor_Self = TileColor.bibidLightBlue;
+    Color withCursor_None = TileColor.bibidLightBlue;
+    Color withCursor_Target = TileColor.lightYelow;
+    Color withCursor_NotApplicable = TileColor.red;
     
 
-    
+    //初期化
     public void Activate(Vector2Int initTilePosition)
     {
         //初期化
@@ -69,17 +78,17 @@ public class PathOperation : MonoBehaviour
         //移動経路に最初のタイルの位置を追加
         pathway = new List<Vector2Int> { startTilePosition };
         //判定を初期化
-        MOVE_PROHIBITED = false;
-
+        ACT_PROHIBITED = false;
 
     }
 
-
+    //カーソル位置でタイルの色を変更する
     void Update()
     {
-        //カーソルがボード上にあるかの判定
+        //カーソルのあるマス
+        //ボード上にあるかの判定
         isOnBoard = inputManager.mousePositionBoard != physicalBoard.OUTSIDE;
-        //カーソルがあるタイルにユニットが存在するかの判定
+        //ユニットが存在するかの判定
         unitExists = isOnBoard && dataBoardManager.JudgeExist(inputManager.mousePositionBoard);
 
         //カーソルのあるタイル
@@ -88,21 +97,22 @@ public class PathOperation : MonoBehaviour
         tileWithCursorBefore = null;
 
         //カーソルがあるタイルのユニット
-        cursorUnit = null;
         if (unitExists)
         {
             cursorUnit = dataBoardManager.GetFromDataBoard(inputManager.mousePositionBoard);
         }
 
 
-        //ボード外に出た時の処理
+        //ボード外にカーソルが出た場合
+        //終了する
         if (!isOnBoard)
         {
-            EndMove();
+            EndPathOperation();
             return;
         }
 
-        //ボード内の処理
+
+        //ボード内
 
         tileWithCursor = physicalBoard.GetTile(inputManager.mousePositionBoard);
         tileWithCursorBefore = physicalBoard.GetTile(inputManager.mousePositionBoardBefore);
@@ -112,58 +122,61 @@ public class PathOperation : MonoBehaviour
         //右クリックが終わったとき
         if (Input.GetMouseButtonUp(1))
         {
-            EndMove();
+            EndPathOperation();
             //YOCHI 移動経路を出力する
-            //赤マスで終了した場合
-            if (MOVE_PROHIBITED)
+
+            //行動禁止条件を満たしている場合
+            if (ACT_PROHIBITED)
             {
-                Debug.Log("end with red tile");
+                Debug.Log("prohibited path");
                 return;
             }
             //クリックのみだった場合
             if(pathway.Count == 1)
             {
-                Debug.Log("0 length move path");
+                Debug.Log("0 length path");
                 return;
             }
-
-            //MoveHandlerをユニットの子オブジェクトとして生成しユニットの座標をうごかしてもらう
-            MoveHandler mover = Instantiate(moveHandler);
-            mover.transform.position = startTileUnit.transform.position;
-            mover.transform.SetParent(startTileUnit.transform);
-            mover.Activate(startTileUnit, pathway);
+            //目的となるメソッドを実行する
+            Operate();
         }
 
-        if (MOVE_PROHIBITED) return;
+        //禁止操作時は以下のクリック途中の判定を行わない
+        if (ACT_PROHIBITED) return;
 
 
-        //右クリックされている最中
         #region 右クリックされている最中
         if (Input.GetMouseButton(1))
         {
-            //カーソルが許容位置にあるかで色を変える。
+            //カーソルの位置の色
 
-            //ユニットが存在しない場合!unitExists
-            if(Condition1())
+            //初期位置の場合
+            if(inputManager.mousePositionBoard == startTilePosition)
             {
-                //カーソルのあるタイルを明るくする
-                physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, TileColor.movePointTile);
+                //明るくする
+                physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, withCursor_Self);
             }
-            //敵ユニットが存在する場合cursorUnit.PlayerIndex != startTileUnit.PlayerIndex
+            //対象が存在しない場合
+            else if(Condition1())
+            {
+                //明るくする
+                physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, withCursor_None);
+            }
+            //対象が存在する場合
             else if (Condition2())
             {
-                //カーソルのあるタイルを赤くする
-                physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, TileColor.movePointENEMYUnit);
+                //黄色くする
+                physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, withCursor_Target);
 
                 //フラグをtrueにする。
-                MOVE_PROHIBITED = true;
+                ACT_PROHIBITED = true;
                
             }
-            //味方ユニットが存在かつ・初期位置(自分自身）ではない場合cursorUnit.PlayerIndex == startTileUnit.PlayerIndex && inputManager.mousePositionBoard != startTilePosition
+            //除外対象の場合
             else if (Condition3())
             {
-                //カーソルのあるタイルを赤くする
-                physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, TileColor.movePointMEUnit);
+                //赤くする
+                physicalBoard.ChangeTileColor(tileWithCursor.PositionBoard, withCursor_NotApplicable);
             }
             
 
@@ -173,14 +186,19 @@ public class PathOperation : MonoBehaviour
                 //新しいタイルが移動経路に追加される
                 pathway.Add(tileWithCursor.PositionBoard);
 
-                //すぎたカーソルが赤マスじゃなかった場合
-                if (tileWithCursorBefore.gameObject.GetComponent<SpriteRenderer>().color != TileColor.movePointENEMYUnit)
-                {
-                    //カーソルがすぎたタイルは暗くする
-                    physicalBoard.ChangeTileColor(tileWithCursorBefore.PositionBoard, TileColor.movePassedTile);
-                }
+                ////すぎたカーソルが行動終了マスじゃなかった場合
+                //if (tileWithCursorBefore.gameObject.GetComponent<SpriteRenderer>().color != TileColor.movePointENEMYUnit)
+                //{
+                //    //カーソルがすぎたタイルは暗くする
+                //    physicalBoard.ChangeTileColor(tileWithCursorBefore.PositionBoard, TileColor.movePassedTile);
+                //}
                 
-
+                //過ぎたタイルの色を状態に応じて戻す。
+                //ここでは色が明るい青の場合のみ戻す。
+                if(tileWithCursorBefore.gameObject.GetComponent<SpriteRenderer>().color == withCursor_None)
+                {
+                    physicalBoard.ChangeTileColor(tileWithCursorBefore.PositionBoard, noneCursor_None);
+                }
             }
         }
         #endregion
@@ -189,7 +207,7 @@ public class PathOperation : MonoBehaviour
     }
 
     //終了操作
-    void EndMove()
+    void EndPathOperation()
     {
         //タイルの色を元に戻す。
         foreach (Vector2Int tileOnPath in pathway)
@@ -197,26 +215,54 @@ public class PathOperation : MonoBehaviour
             physicalBoard.ChangeTileColor(tileOnPath, TileColor.moveOriginal);
         }
 
-        //MoveOperationを非アクティブ化する
+        //PathOperationを非アクティブにする
         this.enabled = false;
-
-        //BasicOperationをアクティブ化する
-        basicOperation.enabled = true;
-        basicOperation.Activate();
+        //次の操作方法をアクティブにする
+        ActivateNextOperation();
     }
+
+    /// <summary>
+    /// 次に操作のActivate
+    /// enabledをtrueにし、Activate()を実行する
+    /// </summary>
+    virtual protected void ActivateNextOperation()
+    {
+        Debug.Log(nameof(ActivateNextOperation) + " is not overriden");
+    }
+
+    /// <summary>
+    /// 対象がいないタイルの条件
+    /// </summary>
     virtual protected bool Condition1()
     {
-        Debug.Log("Condition1 is not overwritten.");
+        Debug.Log(nameof(Condition1) + " is not overriden.");
         return false;
     }
+
+    /// <summary>
+    /// 対象がいるタイルの条件
+    /// </summary>
+    /// <returns></returns>
     virtual protected bool Condition2()
     {
-        Debug.Log("Condition2 is not overwritten.");
+        Debug.Log(nameof(Condition2) + " is not overriden.");
         return false;
     }
+
+    /// <summary>
+    /// 対象外であるタイルの条件
+    /// </summary>
+    /// <returns></returns>
     virtual protected bool Condition3()
     {
-        Debug.Log("Condition3 is not overwritten.");
+        Debug.Log(nameof(Condition3) + " is not overriden.");
         return false;
+    }
+    /// <summary>
+    /// 経路指定後、実行するメソッド
+    /// </summary>
+    virtual protected void Operate()
+    {
+        Debug.Log(nameof(Operate) + " is not overriden.");
     }
 }

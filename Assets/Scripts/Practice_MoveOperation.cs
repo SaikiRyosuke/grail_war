@@ -15,6 +15,20 @@ public class Practice_MoveOperation : PathOperation
     }
     protected override bool Condition3()
     {
-        return cursorUnit.PlayerIndex == startTileUnit.PlayerIndex && inputManager.mousePositionBoard != startTilePosition;
+        return cursorUnit.PlayerIndex == startTileUnit.PlayerIndex;
+    }
+    protected override void Operate()
+    {
+        //MoveHandlerをユニットの子オブジェクトとして生成しユニットの座標をうごかしてもらう
+        MoveHandler mover = Instantiate(moveHandler);
+        mover.transform.position = startTileUnit.transform.position;
+        mover.transform.SetParent(startTileUnit.transform);
+        mover.Activate(startTileUnit, pathway);
+    }
+    protected override void ActivateNextOperation()
+    {
+        //BasicOperationをアクティブ化する
+        basicOperation.enabled = true;
+        basicOperation.Activate();
     }
 }

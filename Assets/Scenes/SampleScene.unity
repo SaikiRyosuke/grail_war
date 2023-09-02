@@ -549,7 +549,7 @@ MonoBehaviour:
   primaryUnitOperator: {fileID: 2120472334}
   sceneManager: {fileID: 2120472324}
   basicOperation: {fileID: 2120472328}
-  moveOperation: {fileID: 2120472329}
+  pathOperation: {fileID: 2120472338}
   attackOperation: {fileID: 2120472330}
   choiceOperation: {fileID: 2120472331}
 --- !u!1 &750442550
@@ -1319,7 +1319,6 @@ GameObject:
   - component: {fileID: 2120472326}
   - component: {fileID: 2120472328}
   - component: {fileID: 2120472338}
-  - component: {fileID: 2120472329}
   - component: {fileID: 2120472330}
   - component: {fileID: 2120472331}
   - component: {fileID: 2120472332}
@@ -1400,31 +1399,11 @@ MonoBehaviour:
   inputManager: {fileID: 2120472326}
   physicalBoard: {fileID: 2120472336}
   dataBoardManager: {fileID: 2120472335}
-  moveOperation: {fileID: 2120472329}
+  moveOperation: {fileID: 0}
   attackOperation: {fileID: 2120472330}
   sceneManager: {fileID: 2120472324}
   colorTile: {fileID: 2120472337}
   pathOperation: {fileID: 2120472338}
---- !u!114 &2120472329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2120472322}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 021d2803e78053f408476ef9b48d02f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputManager: {fileID: 2120472326}
-  physicalBoard: {fileID: 2120472336}
-  dataBoardManager: {fileID: 2120472335}
-  primaryUnitOperator: {fileID: 2120472334}
-  basicOperation: {fileID: 2120472328}
-  sceneManager: {fileID: 2120472324}
-  moveHandler: {fileID: 2924238606833373971, guid: 1239a68ea749f7a4ca3843e66126cb18, type: 3}
-  colorTile: {fileID: 2120472337}
 --- !u!114 &2120472330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1548,7 +1527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputManager: {fileID: 2120472326}
-  moveOperation: {fileID: 2120472329}
+  moveOperation: {fileID: 0}
   basicOperation: {fileID: 2120472328}
   tilePrefab: {fileID: 5244071410272339918, guid: dfa2538ce78d1974e9625e3ec31419e5, type: 3}
   dataBoardManager: {fileID: 2120472335}
