@@ -13,7 +13,7 @@ public class UnitGeneral : MonoBehaviour
     //各種管理スクリプト
     GameObject controller;
     InputManager inputManager;
-    MoveOperation moveOperation;
+    MainMoveOperation mainMoveOperation;
     PhysicalBoard physicalBoard;
     DataBoardManager dataBoardManager;
 
@@ -55,7 +55,7 @@ public class UnitGeneral : MonoBehaviour
     {
         controller = GameObject.FindGameObjectWithTag(Methods.CONTROLLER);
         inputManager = controller.GetComponent<InputManager>();
-        moveOperation = controller.GetComponent<MoveOperation>();
+        mainMoveOperation = controller.GetComponent<MainMoveOperation>();
 
     }
 

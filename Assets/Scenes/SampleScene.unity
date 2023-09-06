@@ -550,7 +550,7 @@ MonoBehaviour:
   sceneManager: {fileID: 2120472324}
   basicOperation: {fileID: 2120472328}
   pathOperation: {fileID: 2120472338}
-  attackOperation: {fileID: 2120472330}
+  attackOperation: {fileID: 2120472339}
   choiceOperation: {fileID: 2120472331}
 --- !u!1 &750442550
 GameObject:
@@ -1319,7 +1319,7 @@ GameObject:
   - component: {fileID: 2120472326}
   - component: {fileID: 2120472328}
   - component: {fileID: 2120472338}
-  - component: {fileID: 2120472330}
+  - component: {fileID: 2120472339}
   - component: {fileID: 2120472331}
   - component: {fileID: 2120472332}
   - component: {fileID: 2120472336}
@@ -1399,30 +1399,11 @@ MonoBehaviour:
   inputManager: {fileID: 2120472326}
   physicalBoard: {fileID: 2120472336}
   dataBoardManager: {fileID: 2120472335}
-  moveOperation: {fileID: 0}
-  attackOperation: {fileID: 2120472330}
+  mainMoveOperation: {fileID: 2120472338}
+  attackOperation: {fileID: 2120472339}
   sceneManager: {fileID: 2120472324}
   colorTile: {fileID: 2120472337}
-  pathOperation: {fileID: 2120472338}
---- !u!114 &2120472330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2120472322}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e27be318cc3a27948870a410e21833dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneManager: {fileID: 2120472324}
-  basicOperation: {fileID: 2120472328}
-  choiceOperation: {fileID: 2120472331}
-  physicalBoard: {fileID: 2120472336}
-  inputManager: {fileID: 2120472326}
-  dataBoardManager: {fileID: 2120472335}
-  colorTile: {fileID: 2120472337}
+  pathOperation: {fileID: 0}
 --- !u!114 &2120472331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1527,7 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputManager: {fileID: 2120472326}
-  moveOperation: {fileID: 0}
+  mainMoveOperation: {fileID: 0}
   basicOperation: {fileID: 2120472328}
   tilePrefab: {fileID: 5244071410272339918, guid: dfa2538ce78d1974e9625e3ec31419e5, type: 3}
   dataBoardManager: {fileID: 2120472335}
@@ -1562,6 +1543,25 @@ MonoBehaviour:
   basicOperation: {fileID: 2120472328}
   sceneManager: {fileID: 2120472324}
   moveHandler: {fileID: 2924238606833373971, guid: 1239a68ea749f7a4ca3843e66126cb18, type: 3}
+  colorTile: {fileID: 0}
+--- !u!114 &2120472339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120472322}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a04c9fe4fd21e4eb326090520de026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneManager: {fileID: 2120472324}
+  basicOperation: {fileID: 2120472328}
+  choiceOperation: {fileID: 2120472331}
+  physicalBoard: {fileID: 2120472336}
+  inputManager: {fileID: 2120472326}
+  dataBoardManager: {fileID: 2120472335}
   colorTile: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

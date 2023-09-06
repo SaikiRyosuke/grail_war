@@ -8,7 +8,7 @@ public class PhysicalBoard : MonoBehaviour
     //参照
     //管理スクリプト各種
     [SerializeField] InputManager inputManager;
-    [SerializeField] MoveOperation moveOperation;
+    [SerializeField] MainMoveOperation mainMoveOperation;
     [SerializeField] BasicOperation basicOperation;
 
     //ボード1マス分のタイルプレファブ

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Practice_MoveOperation : PathOperation
+public class MainMoveOperation : PathOperation
 {
    
     protected override bool Condition1()

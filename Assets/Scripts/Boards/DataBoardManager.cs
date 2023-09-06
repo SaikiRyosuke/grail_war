@@ -40,7 +40,7 @@ public class DataBoardManager : MonoBehaviour
 
     //攻撃可能なボード座標群を渡す
     //攻撃のレンジと攻撃位置を指定した場合
-    public List<Vector2Int> AttackablePositionsWithRangeAndPositions(float range, Vector2Int originPosition)
+    public List<Vector2Int> GetRangeWithRangeNumberAndPositions(float range, Vector2Int originPosition)
     {
         List<Vector2Int> attackablePositions = new List<Vector2Int>();
         for(int i = 0; i < Methods.TILE_X; i++)
@@ -59,7 +59,7 @@ public class DataBoardManager : MonoBehaviour
     //ユニットを指定した場合
     public List<Vector2Int> AttackablePositionsWithUnit(UnitGeneral unit)
     {
-        return AttackablePositionsWithRangeAndPositions(unit.atkRange, unit.Position);
+        return GetRangeWithRangeNumberAndPositions(unit.atkRange, unit.Position);
     }
 
     public void Activate()

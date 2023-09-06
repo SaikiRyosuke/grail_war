@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
     //管理スクリプト各種
     GameObject controller;
     InputManager inputManager;
-    MoveOperation moveOperation;
+    MainMoveOperation mainMoveOperation;
     PhysicalBoard physicalBoard;
     DataBoardManager dataBoardManager;
 
@@ -18,7 +18,7 @@ public class Tile : MonoBehaviour
     {
         controller = GameObject.FindGameObjectWithTag(Methods.CONTROLLER);
         inputManager = controller.GetComponent<InputManager>();
-        moveOperation = controller.GetComponent<MoveOperation>();
+        mainMoveOperation = controller.GetComponent<MainMoveOperation>();
 
         physicalBoard = this.transform.parent.GetComponent<PhysicalBoard>();
         dataBoardManager = this.transform.parent.GetComponent<DataBoardManager>();

@@ -19,6 +19,7 @@ public class TileColor : MonoBehaviour
     readonly public static Color lightBlue       = new Color32(135, 190, 255, 200);//水色
     readonly public static Color red             = new Color32(255, 150, 150, 200);//赤
     readonly public static Color lightYelow      = new Color32(255, 240, 130, 255);//明るく薄い黄色
+    readonly public static Color orange          = new Color32(255, 196, 96, 255);//明るく薄い黄色
     readonly public static Color lightMint       = new Color32(149, 254, 255, 240);//明るいミント
 
     //操作状況ごとにわける

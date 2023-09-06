@@ -15,7 +15,7 @@ public class DebugDisplay : MonoBehaviour
     [SerializeField] SceneManager sceneManager;
     [SerializeField] BasicOperation basicOperation;
     [SerializeField] PathOperation pathOperation;
-    [SerializeField] AttackOperation attackOperation;
+    [SerializeField] MainAttackOperation attackOperation;
     [SerializeField] ChoiceOperation choiceOperation;
 
     TextMeshProUGUI mousePositionBoardText;

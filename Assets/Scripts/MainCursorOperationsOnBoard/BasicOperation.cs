@@ -8,8 +8,8 @@ public class BasicOperation : MonoBehaviour
     [SerializeField] InputManager inputManager;
     [SerializeField] PhysicalBoard physicalBoard;
     [SerializeField] DataBoardManager dataBoardManager;
-    [SerializeField] MoveOperation moveOperation;
-    [SerializeField] AttackOperation attackOperation;
+    [SerializeField] MainMoveOperation mainMoveOperation;
+    [SerializeField] MainAttackOperation attackOperation;
     [SerializeField] SceneManager sceneManager;
     [SerializeField] TileColor colorTile;
 
@@ -84,10 +84,10 @@ public class BasicOperation : MonoBehaviour
                 //BasciOperationを非アクティブ化・MoveOperationをアクティブ化・初期化
                 this.enabled = false;
                 //一度moveOoperationをpracticeにする
-                //moveOperation.enabled = true;
-                //moveOperation.Activate(inputManager.mousePositionBoard);
-                pathOperation.enabled = true;
-                pathOperation.Activate(inputManager.mousePositionBoard);
+                mainMoveOperation.enabled = true;
+                mainMoveOperation.Activate(inputManager.mousePositionBoard);
+                //pathOperation.enabled = true;
+                //pathOperation.Activate(inputManager.mousePositionBoard);
             }
         }
 
@@ -98,7 +98,9 @@ public class BasicOperation : MonoBehaviour
             //BasciOperationを非アクティブ化・AttackOperationをアクティブ化・初期化
             this.enabled = false;
             attackOperation.enabled = true;
-            attackOperation.Activate(inputManager.mousePositionBoard);
+
+            UnitGeneral clickedUnit = dataBoardManager.GetFromDataBoard(inputManager.mousePositionBoard);
+            attackOperation.Activate(inputManager.mousePositionBoard, clickedUnit.atkRange );
         }
 
         //デバッグ用　

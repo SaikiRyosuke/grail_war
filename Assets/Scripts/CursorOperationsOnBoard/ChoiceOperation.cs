@@ -72,7 +72,7 @@ public class ChoiceOperation : MonoBehaviour
     void EndChoice()
     {
 
-        //MoveOperationを非アクティブ化する
+        //MainMoveOperationを非アクティブ化する
         this.enabled = false;
 
         //BasicOperationをアクティブ化する
